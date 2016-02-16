@@ -99,7 +99,8 @@ var Notepad = React.createClass({
         return n.id === notepad.selectedId;
     })[0];
     if (selectedNote) {
-      editor = <NoteEditor note={selectedNote}
+      editor = <NoteEditor key={selectedNote.id}
+                           note={selectedNote}
                            onChange={this.props.onChangeNote}
                            onDeleteNote={this.props.onDeleteNote}/>;
     }
