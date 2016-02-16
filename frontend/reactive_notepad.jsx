@@ -19,16 +19,25 @@ var NoteSummary = React.createClass({
 
 var NotesList = React.createClass({
   render: function(){
-    var notes = this.props.notepad.notes;
+    var notepad = this.props.notepad;
+    var notes = notepad.notes;
 
     return (
       <div className="note-list">
         {
           notes.map(function(note){
             return (
-              <NoteSummary key={note.id} note={note}/>
+              <div key={note.id} className={
+                  notepad.selectedId === note.id ? 'note-selected' : ''
+                }>
+                <a href="#" onClick={
+                    this.props.onSelectNote.bind(null, note.id)
+                }>
+                  <NoteSummary note={note}/>
+                </a>
+              </div>
             );
-          })
+          }.bind(this))
         }
       </div>
     );
@@ -63,8 +72,10 @@ var Notepad = React.createClass({
     }
     return (
       <div id="notepad">
-        <NotesList notepad={notepad}/>
-        <div><button onClick={this.props.onAddNote}>Add note</button></div>
+        <NotesList notepad={notepad} onSelectNote={this.props.onSelectNote}/>
+        <div>
+          <button onClick={this.props.onAddNote}>Add note</button>
+        </div>
         {editor}
       </div>
     );
@@ -96,14 +107,21 @@ var onChangeNote = function (id, value) {
   onChange();
 };
 
+var onSelectNote = function (id) {
+  notepad.selectedId = id;
+  onChange();
+};
+
 var onChange = function () {
   ReactDOM.render(
     <Notepad notepad={notepad}
              onAddNote={onAddNote}
-             onChangeNote={onChangeNote}/>,
+             onChangeNote={onChangeNote}
+             onSelectNote={onSelectNote}/>,
     document.getElementById('reactive-notepad')
   );
 };
+
 
 document.addEventListener('DOMContentLoaded', function(){
   onChange();
