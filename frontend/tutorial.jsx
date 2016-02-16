@@ -1,6 +1,7 @@
 var React = require('react'),
   ReactDOM = require('react-dom'),
-  List = require('./list');
+  List = require('./list'),
+  List = require('./notepad');
 
 document.addEventListener('DOMContentLoaded', function(){
   ReactDOM.render(
