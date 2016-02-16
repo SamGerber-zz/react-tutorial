@@ -1,12 +1,13 @@
 var React = require('react'),
-  ReactDOM = require('react-dom');
+  ReactDOM = require('react-dom'),
+  List = require('./list');
 
 document.addEventListener('DOMContentLoaded', function(){
-  React.render(
+  ReactDOM.render(
     <div>
       Hello, world!
-      {React.createElement('div', {}, 'Hello World 2!!')} //Alternate syntax
+      {React.createElement('div', {}, 'Hello World 2!!')/*alternate syntax*/}
     </div>,
-      document.body
+      document.getElementById("hello-world")
     );
 });
