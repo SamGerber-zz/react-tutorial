@@ -45,12 +45,30 @@ var NotesList = React.createClass({
 });
 
 var NoteEditor = React.createClass({
+  getInitialState: function () {
+    return {
+      isConfirming: false
+    };
+  },
+
   onChange: function (event) {
     this.props.onChange(this.props.note.id, event.target.value);
   },
 
+  onDelete: function () {
+    if (this.state.isConfirming) {
+      this.props.onDeleteNote(this.props.note.id);
+      this.setState({isConfirming: false});
+    } else {
+      this.setState({isConfirming: true});
+    }
+  },
+
+  onCancelDelete: function () {
+    this.setState({isConfirming: false});
+  },
+
   render: function () {
-    var id = this.props.note.id;
     return (
       <div>
         <div>
@@ -59,9 +77,15 @@ var NoteEditor = React.createClass({
             onChange={this.onChange}>
           </textarea>
         </div>
-        <button onClick={this.props.onDeleteNote.bind(null, id)}>
-          Delete note
+        <button onClick={this.onDelete}>
+          {
+            this.state.isConfirming ? 'Confirm' : 'Delete note'
+          }
         </button>
+        {
+          this.state.isConfirming ?
+            <button onClick={this.onCancelDelete}>Cancel</button> : null
+        }
       </div>
     );
   }
