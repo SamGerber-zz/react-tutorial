@@ -50,11 +50,19 @@ var NoteEditor = React.createClass({
   },
 
   render: function () {
+    var id = this.props.note.id;
     return (
-      <textarea rows={5} cols={40}
-                value={this.props.note.content}
-                onChange={this.onChange}>
-      </textarea>
+      <div>
+        <div>
+          <textarea rows={5} cols={40}
+            value={this.props.note.content}
+            onChange={this.onChange}>
+          </textarea>
+        </div>
+        <button onClick={this.props.onDeleteNote.bind(null, id)}>
+          Delete note
+        </button>
+      </div>
     );
   }
 });
@@ -68,11 +76,13 @@ var Notepad = React.createClass({
     })[0];
     if (selectedNote) {
       editor = <NoteEditor note={selectedNote}
-                           onChange={this.props.onChangeNote}/>;
+                           onChange={this.props.onChangeNote}
+                           onDeleteNote={this.props.onDeleteNote}/>;
     }
     return (
       <div id="notepad">
-        <NotesList notepad={notepad} onSelectNote={this.props.onSelectNote}/>
+        <NotesList notepad={notepad}
+                   onSelectNote={this.props.onSelectNote}/>
         <div>
           <button onClick={this.props.onAddNote}>Add note</button>
         </div>
@@ -112,11 +122,28 @@ var onSelectNote = function (id) {
   onChange();
 };
 
+var onDeleteNote = function (id) {
+  var note = notepad.notes.filter(function(n) {
+    return n.id === id;
+  })[0];
+  if (note) {
+    notepad.notes = notepad.notes.filter(function (n) {
+      return n.id !== id;
+    });
+  }
+  if (notepad.selectedId === id) {
+    notepad.selectedId = null;
+  }
+  onChange();
+};
+
+
 var onChange = function () {
   ReactDOM.render(
     <Notepad notepad={notepad}
              onAddNote={onAddNote}
              onChangeNote={onChangeNote}
+             onDeleteNote={onDeleteNote}
              onSelectNote={onSelectNote}/>,
     document.getElementById('reactive-notepad')
   );
