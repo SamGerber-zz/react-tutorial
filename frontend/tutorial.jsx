@@ -3,6 +3,7 @@ var React = require('react'),
 
 require('./list');
 require('./notepad');
+require('./reactive_notepad');
 
 document.addEventListener('DOMContentLoaded', function(){
   ReactDOM.render(
