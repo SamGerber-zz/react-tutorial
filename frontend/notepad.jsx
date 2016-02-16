@@ -1,6 +1,17 @@
 var React = require('react'),
   ReactDOM = require('react-dom');
 
+var NoteSummary = React.createClass({
+  render: function(){
+    var note = this.props.note;
+    var title = note.content.substring(0, note.content.indexOf('\n'));
+    title = title || note.content;
+    return (
+      <div className="note-summary">{title}</div>
+    );
+  }
+});
+
 var NotesList = React.createClass({
   render: function(){
     var notes = this.props.notepad.notes;
@@ -9,15 +20,8 @@ var NotesList = React.createClass({
       <div className="note-list">
         {
           notes.map(function(note){
-            var title = note.content.substring(0,
-              note.content.indexOf('\n')
-            );
-            title = title || note.content;
-
             return (
-              <div key={note.id} className="note-summary">
-                {title}
-              </div>
+              <NoteSummary key={note.id} note={note}/>
             );
           })
         }
@@ -54,5 +58,3 @@ document.addEventListener('DOMContentLoaded', function(){
     document.getElementById('notepad')
   );
 });
-
-module.exports = NotesList;
