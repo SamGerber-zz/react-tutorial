@@ -3,7 +3,10 @@ var React = require('react'),
 
 document.addEventListener('DOMContentLoaded', function(){
   React.render(
-    <div>Hello, world!</div>,
+    <div>
+      Hello, world!
+      {React.createElement('div', {}, 'Hello World 2!!')} //Alternate syntax
+    </div>,
       document.body
     );
 });
